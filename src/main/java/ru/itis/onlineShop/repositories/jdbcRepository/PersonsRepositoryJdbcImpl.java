@@ -109,4 +109,9 @@ public class PersonsRepositoryJdbcImpl implements PersonsRepository {
             return Optional.empty();
         }
     }
+
+    @Override
+    public Optional<Person> findById(Long id) {
+        return Optional.empty();
+    }
 }

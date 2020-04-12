@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class PersonDto {
 
+    private Long id;
     private String email;
     private String name;
     private String hashPassword;
@@ -24,6 +25,7 @@ public class PersonDto {
 
     public static PersonDto from(Person person){
         return PersonDto.builder()
+                .id(person.getId())
                 .email(person.getEmail())
                 .name(person.getName())
                 .isConfirmed(person.isConfirmed())

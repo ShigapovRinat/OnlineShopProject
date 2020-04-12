@@ -29,16 +29,13 @@ public class Person {
     @Enumerated(value = EnumType.STRING)
     private PersonRole role;
 
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    @JoinTable(
-//            name = "basket",
-//            joinColumns = @JoinColumn(name = "person_id"),
-//            inverseJoinColumns = @JoinColumn(name = "good_id"))
-//    private Set<Good> basket;
-
     @OneToMany(mappedBy = "person", fetch = FetchType.EAGER)
     private Set<Basket> basket;
 
     @OneToMany(mappedBy = "person", fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
     private Set<Order> orders;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "from_id")
+    private Set<Message> messages;
 }

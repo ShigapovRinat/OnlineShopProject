@@ -13,4 +13,5 @@ public class BasketDto {
     private GoodDto goodDto;
     private Integer quantityGood;
     private String email;
+    private Long id;
 }

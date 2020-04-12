@@ -18,9 +18,14 @@
         ${basketCol.goodDto.type}
         ${basketCol.goodDto.price}
         ${basketCol.goodDto.description}
+            <form action="/basket" method="post">
+                <input type="hidden" name="id" value="${basketCol.id}">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                <input type="submit" value="Удалить">
+            </form>
         <br>
     </#list>
-        <form action="/basket" method="post">
+        <form action="/create_order" method="post">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
             <input type="submit" value="Сделать заказ">
         </form>

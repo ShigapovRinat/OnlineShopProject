@@ -33,6 +33,12 @@ public class PersonsRepositoryEntityManagerImpl implements PersonsRepository {
 
     @Transactional
     @Override
+    public Optional<Person> findById(Long id) {
+        return Optional.ofNullable(entityManager.find(Person.class, id));
+    }
+
+    @Transactional
+    @Override
     public void confirmed(String email) {
         entityManager.createQuery("UPDATE Person p SET p.isConfirmed = TRUE WHERE p.email = ?1")
                 .setParameter(1, email).executeUpdate();

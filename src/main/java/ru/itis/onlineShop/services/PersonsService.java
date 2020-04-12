@@ -1,6 +1,5 @@
 package ru.itis.onlineShop.services;
 
-import ru.itis.onlineShop.dto.GoodDto;
 import ru.itis.onlineShop.dto.PersonDto;
 
 import java.util.List;
@@ -12,5 +11,6 @@ public interface PersonsService {
     PersonDto findPerson(String email);
     void addPerson(PersonDto personDto);
     void deletePerson(String email);
+    PersonDto findPersonById(Long id);
 
 }

@@ -13,6 +13,7 @@
     <#if orders??>
     <#list orders as order>
         ${order.idOrder}
+        ${order.createAt}
         <br>
         <#list order.goodsBasket as good>
             ${good.quantityGood}

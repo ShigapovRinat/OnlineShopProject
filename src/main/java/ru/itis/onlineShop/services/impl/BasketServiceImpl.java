@@ -34,6 +34,7 @@ public class BasketServiceImpl implements BasketService {
             List<BasketDto> basketDtoList = new ArrayList<>();
             basket.forEach(bask -> {
                 basketDtoList.add(BasketDto.builder()
+                        .id(bask.getId())
                         .goodDto(GoodDto.from(bask.getGood()))
                         .quantityGood(bask.getQuantityGood())
                         .build());
@@ -73,10 +74,11 @@ public class BasketServiceImpl implements BasketService {
     public void deleteBasket(String email, BasketDto basketDto) {
         Optional<Person> optionalPerson = personsRepository.find(email);
         if (optionalPerson.isPresent()) {
-            if (!basketRepository.findByPersonIdAndGoodId
-                    (optionalPerson.get().getId(), basketDto.getGoodDto().getId()).isPresent()) {
-                basketRepository.deleteByPersonIdAndGoodId(optionalPerson.get().getId(), basketDto.getGoodDto().getId());
-            } else throw new IllegalStateException("Товара в корзине нет");
+            basketRepository.delete(basketDto.getId());
+//            if (!basketRepository.findByPersonIdAndGoodId
+//                    (optionalPerson.get().getId(), basketDto.getGoodDto().getId()).isPresent()) {
+//                basketRepository.deleteByPersonIdAndGoodId(optionalPerson.get().getId(), basketDto.getGoodDto().getId());
+//            } else throw new IllegalStateException("Товара в корзине нет");
         } else throw new IllegalStateException("Пользователь не найден");
     }
 

@@ -14,6 +14,7 @@
         <a href="/profile">Профиль</a>
         <a href="/basket">Корзина</a>
         <a href="/orders">Заказы</a>
+        <a href="/support_chat">Тех поддержка</a>
         <#if auth == "ADMIN">
             <a href="/addGood">Добавить продукт</a>
             <a href="/allPersons">Список пользователей</a>

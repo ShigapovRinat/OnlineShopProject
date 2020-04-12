@@ -43,7 +43,6 @@ public class BasketController {
     @PostMapping("/catalog")
     public ModelAndView addGoodBasket(Authentication authentication, @RequestParam Long id,
                                       @RequestParam(defaultValue = "1") Integer quantity){
-        System.out.println(quantity);
         try {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             BasketDto basketDto = BasketDto.builder().goodDto(GoodDto.builder().id(id).build()).quantityGood(quantity).build();
@@ -60,6 +59,14 @@ public class BasketController {
             models.put("message", e.getMessage());
             return new ModelAndView("catalog", models);
         }
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/basket")
+    public String deleteGoodFromBasket(Authentication authentication, BasketDto basketDto){
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        basketService.deleteBasket(userDetails.getUsername(), basketDto);
+        return "redirect:/basket";
     }
 
 

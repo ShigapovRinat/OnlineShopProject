@@ -14,6 +14,7 @@ import ru.itis.onlineShop.services.BasketService;
 import ru.itis.onlineShop.services.OrdersService;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class OrdersController {
@@ -36,7 +37,7 @@ public class OrdersController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PostMapping("/basket")
+    @PostMapping("/create_order")
     public ModelAndView createOrder(Authentication authentication){
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         List<BasketDto> basketDtoList = basketService.getBasket(userDetails.getUsername());

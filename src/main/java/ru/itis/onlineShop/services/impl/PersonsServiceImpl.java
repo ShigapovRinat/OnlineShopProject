@@ -2,19 +2,13 @@ package ru.itis.onlineShop.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.itis.onlineShop.dto.GoodDto;
 import ru.itis.onlineShop.dto.PersonDto;
-import ru.itis.onlineShop.models.Basket;
-import ru.itis.onlineShop.models.Good;
 import ru.itis.onlineShop.models.Person;
 import ru.itis.onlineShop.repositories.PersonsRepository;
 import ru.itis.onlineShop.services.PersonsService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Component
 public class PersonsServiceImpl implements PersonsService {
@@ -49,5 +43,13 @@ public class PersonsServiceImpl implements PersonsService {
     @Override
     public void deletePerson(String email) {
         personsRepository.delete(email);
+    }
+
+    @Override
+    public PersonDto findPersonById(Long id) {
+        Optional<Person> personOptional = personsRepository.findById(id);
+        if (personOptional.isPresent()){
+            return PersonDto.from(personOptional.get());
+        } else throw new IllegalArgumentException("Пользователь не найден");
     }
 }
