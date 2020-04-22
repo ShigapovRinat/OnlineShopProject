@@ -41,7 +41,12 @@ function receiveMessage(pageId) {
         //     xhr.setRequestHeader(header, token)
         // },
         success: function (response) {
-            $('#messages').first().after('<li>' + response[0]['text'] + '</li>');
+            var userName = pageId;
+            if ((response[0]['whomId'] != "1" || response[0]['pageId'] === "89179060010@mail.ru")
+                || response[0]['text'] === "Здравствуйте, чем я могу Вам помочь?") {
+                userName = "admin";
+            }
+            $('#messages').first().after('<li>' + userName + " " + response[0]['text'] + '</li>');
             receiveMessage(pageId);
         }
     })

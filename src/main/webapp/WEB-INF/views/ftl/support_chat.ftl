@@ -5,8 +5,6 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <#--<meta name="_csrf" content="${_csrf.token}"/>-->
-    <#--<meta name="_csrf_header" content="${_csrf.headerName}"/>-->
     <title>Document</title>
     <script
             src="https://code.jquery.com/jquery-3.4.1.min.js"
@@ -15,7 +13,6 @@
     <script src="/resources/js/chat.js"></script>
 </head>
 <body onload="sendMessage('${pageId}', 'Здравствуйте, чем я могу Вам помочь?', 1)">
-<h1>Ваш идентификатор - ${pageId}</h1>
 <div>
     <input id="message" placeholder="Ваше сообщение">
     <#if is_admin>
@@ -28,7 +25,12 @@
 <div>
     <ul id="messages">
         <#list messages as message>
-            <li>${message.fromId} ${message.text}</li>
+            <#if message.fromId == 1>
+                <li>admin ${message.text}</li>
+            <#else>
+                <li>${pageId} ${message.text}</li>
+            </#if>
+
         </#list>
     </ul>
 </div>

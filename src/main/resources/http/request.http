@@ -1,0 +1,19 @@
+POST http://localhost:8080/signIn
+Content-Type: application/json
+
+{
+  "email" : "89179060010@mail.ru",
+  "password": "123"
+}
+
+###
+
+GET http://localhost:8080/persons
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZW1haWwiOiI4OTE3OTA2MDAxMEBtYWlsLnJ1Iiwicm9sZSI6IkFETUlOIn0.F_81hFKGBWBSbOhOlYf-xc_373pooqtAzblwPFjWJJo
+
+###
+
+DELETE http://localhost:8080/deletePerson/2
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZW1haWwiOiI4OTE3OTA2MDAxMEBtYWlsLnJ1Iiwicm9sZSI6IkFETUlOIn0.F_81hFKGBWBSbOhOlYf-xc_373pooqtAzblwPFjWJJo
+
+###
