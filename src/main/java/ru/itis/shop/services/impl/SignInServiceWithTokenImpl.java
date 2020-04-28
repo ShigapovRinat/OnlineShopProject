@@ -10,8 +10,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import ru.itis.shop.dto.SignInDto;
 import ru.itis.shop.dto.TokenDto;
-import ru.itis.shop.models.Person;
-import ru.itis.shop.repositories.PersonsRepository;
+import ru.itis.shop.models.User;
+import ru.itis.shop.repositories.UsersRepository;
 import ru.itis.shop.services.SignInService;
 
 import java.util.Optional;
@@ -25,26 +25,26 @@ public class SignInServiceWithTokenImpl implements SignInService {
 
 
     @Autowired
-    private PersonsRepository personsRepository;
+    private UsersRepository usersRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
     public TokenDto signIn(SignInDto signInDto) {
-        Optional<Person> personOptional = personsRepository.find(signInDto.getEmail());
+        Optional<User> personOptional = usersRepository.find(signInDto.getEmail());
         if (personOptional.isPresent()) {
-            Person person = personOptional.get();
-            if (passwordEncoder.matches(signInDto.getPassword(), person.getHashPassword())) {
+            User user = personOptional.get();
+            if (passwordEncoder.matches(signInDto.getPassword(), user.getHashPassword())) {
                 String token = Jwts.builder()
-                        .setSubject(person.getId().toString())
-                        .claim("email", person.getEmail())
-                        .claim("role", person.getRole().name())
+                        .setSubject(user.getId().toString())
+                        .claim("email", user.getEmail())
+                        .claim("role", user.getRole().name())
                         .signWith(SignatureAlgorithm.HS256, secret)
                         .compact();
                 return new TokenDto(token);
             } else throw new AccessDeniedException("Wrong email/password");
-        } else throw new AccessDeniedException("Person not found");
+        } else throw new AccessDeniedException("User not found");
     }
 
 }

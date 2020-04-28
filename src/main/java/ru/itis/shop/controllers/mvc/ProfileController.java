@@ -6,8 +6,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import ru.itis.shop.models.Person;
-import ru.itis.shop.security.mvc.details.PersonDetailsImpl;
+import ru.itis.shop.models.User;
+import ru.itis.shop.security.mvc.details.UserDetailsImpl;
 
 @Profile("mvc")
 @Controller
@@ -16,9 +16,9 @@ public class ProfileController {
 
     @GetMapping("/profile")
     public String getProfilePage(Authentication authentication, Model model){
-        PersonDetailsImpl userDetails = (PersonDetailsImpl) authentication.getPrincipal();
-        Person person = userDetails.getPerson();
-        model.addAttribute("person", person);
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        User user = userDetails.getUser();
+        model.addAttribute("user", user);
         return "profile";
     }
 }

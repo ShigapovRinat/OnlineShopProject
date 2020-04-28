@@ -6,10 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import ru.itis.shop.security.mvc.details.PersonDetailsImpl;
+import ru.itis.shop.security.mvc.details.UserDetailsImpl;
 import ru.itis.shop.dto.MessageDto;
 import ru.itis.shop.services.MessagesService;
-import ru.itis.shop.services.PersonsService;
+import ru.itis.shop.services.UsersService;
 
 
 import java.util.ArrayList;
@@ -26,14 +26,14 @@ public class MessagesController {
     private MessagesService messagesService;
 
     @Autowired
-    private PersonsService personsService;
+    private UsersService usersService;
 
     // получили сообщение от какой либо страницы - мы его разошлем во все другие страницы
     @PostMapping("/messages")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Object> receiveMessage(@RequestBody MessageDto message, Authentication authentication) {
 
-        PersonDetailsImpl userDetails = (PersonDetailsImpl) authentication.getPrincipal();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         // если сообщений с этой или для этой страницы еще не было
         if (!messages.containsKey(message.getPageId())) {
             // добавляем эту страницу в Map-у страниц
@@ -42,13 +42,13 @@ public class MessagesController {
         if (message.getWhomId() == null){
             message.setWhomId(1L);
         }
-        message.setFromId(userDetails.getPerson().getId());
+        message.setFromId(userDetails.getUser().getId());
         if (!(message.getText().equals("Здравствуйте, чем я могу Вам помочь?") || message.getText().equals(""))) {
             messagesService.save(message);
         }
         // полученное сообщение добавляем для всех открытых страниц нашего приложения
         for (String pageId : messages.keySet()) {
-            if (pageId.equals(personsService.findPersonById(message.getWhomId()).getEmail())
+            if (pageId.equals(usersService.findPersonById(message.getWhomId()).getEmail())
                     || pageId.equals("89179060010@mail.ru")
                     || pageId.equals(message.getPageId())) {
                 // перед тем как положить сообщение для какой-либо страницы
@@ -69,7 +69,7 @@ public class MessagesController {
     @GetMapping("/messages")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<MessageDto>> getMessagesForPage(@RequestParam("pageId") String pageId, Authentication authentication) {
-        PersonDetailsImpl userDetails = (PersonDetailsImpl) authentication.getPrincipal();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         // получили список сообшений для страницы и заблокировали его
         synchronized (messages.get(pageId)) {
             // если нет сообщений уходим в ожидание

@@ -1,37 +1,43 @@
-package ru.itis.shop.security.jwt.details;
+package ru.itis.shop.security.mvc.details;
+
 
 import lombok.Builder;
+import lombok.Data;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import ru.itis.shop.models.PersonRole;
+import ru.itis.shop.models.User;
 
 import java.util.Collection;
 import java.util.Collections;
 
+@Profile("mvc")
 @Builder
-@Profile("rest")
-public class PersonDetailsForTokenImpl implements UserDetails {
+@Data
+public class UserDetailsImpl implements UserDetails {
 
-    private Long personId;
-    private PersonRole role;
-    private String email;
+    private User user;
+
+    public UserDetailsImpl(User user) {
+        this.user = user;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.name());
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getRole().name());
         return Collections.singletonList(authority);
+
     }
 
     @Override
     public String getPassword() {
-        return null;
+        return user.getHashPassword();
     }
 
     @Override
     public String getUsername() {
-        return this.email;
+        return user.getEmail();
     }
 
     @Override
@@ -51,11 +57,10 @@ public class PersonDetailsForTokenImpl implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return user.isConfirmed();
     }
 
-    public Long getPersonId() {
-        return personId;
+    public User getUser() {
+        return user;
     }
-
 }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, person-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Add good</title>
 </head>
@@ -13,6 +13,7 @@
     <form action="/addGood" method="post">
         <input name="title" placeholder="Название">
         <input type="number" name="price" placeholder="Цена">
+        <input type="text" name="manufacturer" placeholder="Производитель">
         <input type="text" name="description" placeholder="Описание">
         <p>
             Категория:

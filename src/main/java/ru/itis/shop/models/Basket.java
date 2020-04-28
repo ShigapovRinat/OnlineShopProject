@@ -4,6 +4,7 @@ package ru.itis.shop.models;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Builder
 @Setter
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Basket {
+public class Basket implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,7 +22,7 @@ public class Basket {
 
     @ManyToOne
     @JoinColumn(name = "person_id")
-    private Person person;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "good_id")

@@ -3,6 +3,7 @@ package ru.itis.shop.models;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 
@@ -12,7 +13,8 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Person {
+@Table(name = "person")
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,15 +29,15 @@ public class Person {
     private boolean isConfirmed;
 
     @Enumerated(value = EnumType.STRING)
-    private PersonRole role;
+    private UserRole role;
 
-    @OneToMany(mappedBy = "person", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<Basket> basket;
 
-    @OneToMany(mappedBy = "person", fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
     private Set<Order> orders;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany
     @JoinColumn(name = "from_id")
     private Set<Message> messages;
 }

@@ -6,15 +6,15 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import ru.itis.shop.models.Person;
-import ru.itis.shop.models.PersonRole;
-import ru.itis.shop.repositories.PersonsRepository;
+import ru.itis.shop.models.User;
+import ru.itis.shop.models.UserRole;
+import ru.itis.shop.repositories.UsersRepository;
 
 import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Optional;
 
-public class PersonsRepositoryJdbcImpl implements PersonsRepository {
+public class UsersRepositoryJdbcImpl implements UsersRepository {
 
     //language=SQL
     private static final String SQL_SELECT_ALL = "select * from person";
@@ -33,50 +33,50 @@ public class PersonsRepositoryJdbcImpl implements PersonsRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public PersonsRepositoryJdbcImpl(JdbcTemplate jdbcTemplate) {
+    public UsersRepositoryJdbcImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private RowMapper<Person> userRowMapper = (row, rowNumber) ->
-            Person.builder()
+    private RowMapper<User> userRowMapper = (row, rowNumber) ->
+            User.builder()
                     .name(row.getString("username"))
                     .email(row.getString("email"))
                     .hashPassword(row.getString("password"))
                     .confirmLink(row.getString("confirmlink"))
                     .isConfirmed(row.getBoolean("isconfirmed"))
-                    .role(PersonRole.valueOf(row.getString("role")))
+                    .role(UserRole.valueOf(row.getString("role")))
                     .build();
 
 
     @Override
-    public Optional<Person> find(String email) {
+    public Optional<User> find(String email) {
         try {
-            Person person = jdbcTemplate.queryForObject(SQL_FIND_BY_EMAIL, new Object[]{email}, userRowMapper);
-            return Optional.ofNullable(person);
+            User user = jdbcTemplate.queryForObject(SQL_FIND_BY_EMAIL, new Object[]{email}, userRowMapper);
+            return Optional.ofNullable(user);
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
     }
 
     @Override
-    public List<Person> findAll() {
+    public List<User> findAll() {
         return jdbcTemplate.query(SQL_SELECT_ALL, userRowMapper);
     }
 
     @Override
-    public void save(Person person) {
+    public void save(User user) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement statement = connection.prepareStatement(SQL_INSERT, new String[]{"id"});
-            statement.setString(1, person.getName());
-            statement.setString(2, person.getEmail());
-            statement.setString(3, person.getHashPassword());
-            statement.setString(4, person.getConfirmLink());
-            statement.setBoolean(5, person.isConfirmed());
-            statement.setString(6, person.getRole().toString());
+            statement.setString(1, user.getName());
+            statement.setString(2, user.getEmail());
+            statement.setString(3, user.getHashPassword());
+            statement.setString(4, user.getConfirmLink());
+            statement.setBoolean(5, user.isConfirmed());
+            statement.setString(6, user.getRole().toString());
             return statement;
         }, keyHolder);
-        person.setId((Long) keyHolder.getKey());
+        user.setId((Long) keyHolder.getKey());
     }
 
     @Override
@@ -100,22 +100,22 @@ public class PersonsRepositoryJdbcImpl implements PersonsRepository {
     }
 
     @Override
-    public void deletePersonById(Long id) {
+    public void deleteUserById(Long id) {
 
     }
 
     @Override
-    public Optional<Person> findByConfirmLink(String confirmLink) {
+    public Optional<User> findByConfirmLink(String confirmLink) {
         try {
-            Person person = jdbcTemplate.queryForObject(SQL_FIND_BY_CONFIRM_LINK, new Object[]{confirmLink}, userRowMapper);
-            return Optional.ofNullable(person);
+            User user = jdbcTemplate.queryForObject(SQL_FIND_BY_CONFIRM_LINK, new Object[]{confirmLink}, userRowMapper);
+            return Optional.ofNullable(user);
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
     }
 
     @Override
-    public Optional<Person> findById(Long id) {
+    public Optional<User> findById(Long id) {
         return Optional.empty();
     }
 }

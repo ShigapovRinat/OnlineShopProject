@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import ru.itis.shop.models.Basket;
 import ru.itis.shop.models.Good;
-import ru.itis.shop.models.Person;
+import ru.itis.shop.models.User;
 import ru.itis.shop.repositories.BasketRepository;
 
 import javax.persistence.EntityManager;
@@ -20,19 +20,19 @@ public class BasketRepositoryEntityManagerImpl implements BasketRepository {
 
     @Transactional
     @Override
-    public void deleteByPersonIdAndGoodId(Long idPerson, Long idGood) {
-        entityManager.createQuery("DELETE FROM Basket b WHERE b.person = ?1 AND b.good =?2")
-                .setParameter(1, Person.builder().id(idPerson).build())
+    public void deleteByUserIdAndGoodId(Long idUser, Long idGood) {
+        entityManager.createQuery("DELETE FROM Basket b WHERE b.user = ?1 AND b.good =?2")
+                .setParameter(1, User.builder().id(idUser).build())
                 .setParameter(2, Good.builder().id(idGood).build())
                 .executeUpdate();
     }
 
     @Transactional
     @Override
-    public Optional<Basket> findByPersonIdAndGoodId(Long idPerson, Long idGood) {
+    public Optional<Basket> findByUserIdAndGoodId(Long idUser, Long idGood) {
         Basket basket = entityManager.createQuery
-                ("SELECT b FROM Basket b WHERE b.person = ?1 AND b.good =?2", Basket.class)
-                .setParameter(1, Person.builder().id(idPerson).build())
+                ("SELECT b FROM Basket b WHERE b.user = ?1 AND b.good =?2", Basket.class)
+                .setParameter(1, User.builder().id(idUser).build())
                 .setParameter(2, Good.builder().id(idGood).build())
                 .getResultList()
                 .stream().findFirst().orElse(null);
@@ -53,9 +53,9 @@ public class BasketRepositoryEntityManagerImpl implements BasketRepository {
 
     @Transactional
     @Override
-    public void deletePersonAll(Long idPerson) {
-        entityManager.createQuery("DELETE FROM Basket b WHERE b.person = ?1")
-                .setParameter(1, Person.builder().id(idPerson).build())
+    public void deleteUserAll(Long idUser) {
+        entityManager.createQuery("DELETE FROM Basket b WHERE b.user = ?1")
+                .setParameter(1, User.builder().id(idUser).build())
                 .executeUpdate();
     }
 
@@ -75,6 +75,7 @@ public class BasketRepositoryEntityManagerImpl implements BasketRepository {
     @Override
     public void save(Basket basket) {
         entityManager.persist(basket);
+
     }
 
     @Transactional

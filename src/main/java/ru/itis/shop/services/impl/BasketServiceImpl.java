@@ -6,9 +6,9 @@ import ru.itis.shop.dto.BasketDto;
 import ru.itis.shop.dto.GoodDto;
 import ru.itis.shop.models.Basket;
 import ru.itis.shop.models.Good;
-import ru.itis.shop.models.Person;
+import ru.itis.shop.models.User;
 import ru.itis.shop.repositories.BasketRepository;
-import ru.itis.shop.repositories.PersonsRepository;
+import ru.itis.shop.repositories.UsersRepository;
 import ru.itis.shop.services.BasketService;
 
 import java.util.ArrayList;
@@ -20,16 +20,20 @@ import java.util.Set;
 public class BasketServiceImpl implements BasketService {
 
     @Autowired
-    private PersonsRepository personsRepository;
+    private UsersRepository usersRepository;
 
     @Autowired
     private BasketRepository basketRepository;
 
     @Override
     public List<BasketDto> getBasket(String email) {
-        Optional<Person> optionalPerson = personsRepository.find(email);
-        if (optionalPerson.isPresent()) {
-            Set<Basket> basket = optionalPerson.get().getBasket();
+        Optional<User> optionalUser = usersRepository.find(email);
+        if (optionalUser.isPresent()) {
+            System.out.println(optionalUser.get().getBasket());
+            Set<Basket> basket = optionalUser.get().getBasket();
+            if (basket == null){
+                return new ArrayList<>();
+            }
             List<BasketDto> basketDtoList = new ArrayList<>();
             basket.forEach(bask -> {
                 basketDtoList.add(BasketDto.builder()
@@ -46,19 +50,15 @@ public class BasketServiceImpl implements BasketService {
     public void addBasket(String email, BasketDto basketDto) {
         Good good = Good.builder()
                 .id(basketDto.getGoodDto().getId())
-                .title(basketDto.getGoodDto().getTitle())
-                .description(basketDto.getGoodDto().getDescription())
-                .price(basketDto.getGoodDto().getPrice())
-                .type(basketDto.getGoodDto().getType())
                 .build();
-        Optional<Person> optionalPerson = personsRepository.find(email);
+        Optional<User> optionalPerson = usersRepository.find(email);
         if (optionalPerson.isPresent()) {
             Basket basket = Basket.builder()
-                    .person(optionalPerson.get())
+                    .user(optionalPerson.get())
                     .good(good)
                     .quantityGood(basketDto.getQuantityGood())
                     .build();
-            Optional<Basket> basketOptional = basketRepository.findByPersonIdAndGoodId(basket.getPerson().getId(),
+            Optional<Basket> basketOptional = basketRepository.findByUserIdAndGoodId(basket.getUser().getId(),
                     basket.getGood().getId());
             if (!basketOptional.isPresent()) {
                 basketRepository.save(basket);
@@ -71,21 +71,17 @@ public class BasketServiceImpl implements BasketService {
 
     @Override
     public void deleteBasket(String email, BasketDto basketDto) {
-        Optional<Person> optionalPerson = personsRepository.find(email);
+        Optional<User> optionalPerson = usersRepository.find(email);
         if (optionalPerson.isPresent()) {
             basketRepository.delete(basketDto.getId());
-//            if (!basketRepository.findByPersonIdAndGoodId
-//                    (optionalPerson.get().getId(), basketDto.getGoodDto().getId()).isPresent()) {
-//                basketRepository.deleteByPersonIdAndGoodId(optionalPerson.get().getId(), basketDto.getGoodDto().getId());
-//            } else throw new IllegalStateException("Товара в корзине нет");
         } else throw new IllegalStateException("Пользователь не найден");
     }
 
     @Override
     public void deleteAllBasket(String email) {
-        Optional<Person> optionalPerson = personsRepository.find(email);
+        Optional<User> optionalPerson = usersRepository.find(email);
         if (optionalPerson.isPresent()) {
-            basketRepository.deletePersonAll(optionalPerson.get().getId());
+            basketRepository.deleteUserAll(optionalPerson.get().getId());
         } else throw new IllegalStateException("Пользователь не найден");
     }
 }

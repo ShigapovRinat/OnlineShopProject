@@ -8,12 +8,29 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:8080/persons
+GET http://localhost:8080/users
 Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZW1haWwiOiI4OTE3OTA2MDAxMEBtYWlsLnJ1Iiwicm9sZSI6IkFETUlOIn0.F_81hFKGBWBSbOhOlYf-xc_373pooqtAzblwPFjWJJo
 
 ###
 
-DELETE http://localhost:8080/deletePerson/2
+DELETE http://localhost:8080/deleteUser/2
 Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZW1haWwiOiI4OTE3OTA2MDAxMEBtYWlsLnJ1Iiwicm9sZSI6IkFETUlOIn0.F_81hFKGBWBSbOhOlYf-xc_373pooqtAzblwPFjWJJo
+
+
+###
+
+GET http://localhost:8080/basket
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZW1haWwiOiI4OTE3OTA2MDAxMEBtYWlsLnJ1Iiwicm9sZSI6IkFETUlOIn0.F_81hFKGBWBSbOhOlYf-xc_373pooqtAzblwPFjWJJo
+
+###
+
+POST http://localhost:8080/catalog
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZW1haWwiOiI4OTE3OTA2MDAxMEBtYWlsLnJ1Iiwicm9sZSI6IkFETUlOIn0.F_81hFKGBWBSbOhOlYf-xc_373pooqtAzblwPFjWJJo
+Content-Type: application/json
+
+{
+ "quantity": 2,
+ "goodId": 1
+}
 
 ###

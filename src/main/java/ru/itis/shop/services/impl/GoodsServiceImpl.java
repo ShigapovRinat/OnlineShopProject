@@ -36,6 +36,7 @@ public class GoodsServiceImpl implements GoodsService {
                 .description(goodDto.getDescription())
                 .price(goodDto.getPrice())
                 .type(goodDto.getType())
+                .manufacturer(goodDto.getManufacturer())
                 .build();
         goodsRepository.save(good);
     }

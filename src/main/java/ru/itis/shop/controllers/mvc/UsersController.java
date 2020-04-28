@@ -7,26 +7,26 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
-import ru.itis.shop.services.PersonsService;
+import ru.itis.shop.services.UsersService;
 
 @Profile("mvc")
 @Controller
-public class AdminPersonsController {
+public class UsersController {
 
     @Autowired
-    private PersonsService personsService;
+    private UsersService usersService;
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping("/deletePerson/{person-id}")
-    public String deletePerson(@PathVariable("person-id") Long id) {
-        personsService.deletePersonById(id);
-        return "redirect:/allPersons";
+    @GetMapping("/deleteUser/{user-id}")
+    public String deletePerson(@PathVariable("user-id") Long id) {
+        usersService.deleteUserById(id);
+        return "redirect:/allUsers";
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping("/allPersons")
+    @GetMapping("/allUsers")
     public ModelAndView showAllPersons(){
-        return new ModelAndView("all_persons", "persons", personsService.findAllPersons());
+        return new ModelAndView("all_users", "users", usersService.findAllUsers());
     }
 
 

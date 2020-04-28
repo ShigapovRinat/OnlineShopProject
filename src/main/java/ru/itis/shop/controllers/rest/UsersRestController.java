@@ -8,28 +8,28 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-import ru.itis.shop.dto.PersonDto;
-import ru.itis.shop.services.PersonsService;
+import ru.itis.shop.dto.UserDto;
+import ru.itis.shop.services.UsersService;
 
 import java.util.List;
 
 @Profile("rest")
 @RestController
-public class PersonsRestController {
+public class UsersRestController {
 
     @Autowired
-    private PersonsService personsService;
+    private UsersService usersService;
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping("/persons")
-    public ResponseEntity<List<PersonDto>> getPersons(){
-        return ResponseEntity.ok(personsService.findAllPersons());
+    @GetMapping("/users")
+    public ResponseEntity<List<UserDto>> getUsers(){
+        return ResponseEntity.ok(usersService.findAllUsers());
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @DeleteMapping("/deletePerson/{person-id}")
-    public ResponseEntity<?> deletePerson(@PathVariable("person-id") Long id) {
-        personsService.deletePersonById(id);
+    @DeleteMapping("/deleteUser/{person-id}")
+    public ResponseEntity<?> deleteUser(@PathVariable("person-id") Long id) {
+        usersService.deleteUserById(id);
         return ResponseEntity.accepted().build();
     }
 

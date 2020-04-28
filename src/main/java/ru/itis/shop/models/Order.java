@@ -3,6 +3,7 @@ package ru.itis.shop.models;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Getter
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 @Entity
 @Table(name = "\"order\"")
-public class Order {
+public class Order implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +30,7 @@ public class Order {
 
     @ManyToOne(cascade=CascadeType.MERGE)
     @JoinColumn(name = "person_id")
-    private Person person;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "good_id")

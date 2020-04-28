@@ -18,6 +18,7 @@ public class GoodDto {
 
     private Long id;
     private String title;
+    private String manufacturer;
     private String description;
     private Integer price;
     private GoodType type;
@@ -29,6 +30,7 @@ public class GoodDto {
                 .title(good.getTitle())
                 .price(good.getPrice())
                 .type(good.getType())
+                .manufacturer(good.getManufacturer())
                 .build();
     }
 

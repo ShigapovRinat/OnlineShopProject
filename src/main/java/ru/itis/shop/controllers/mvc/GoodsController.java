@@ -15,7 +15,7 @@ import ru.itis.shop.services.GoodsService;
 
 @Profile("mvc")
 @Controller
-public class AdminGoodsController {
+public class GoodsController {
 
     @Autowired
     private GoodsService goodsService;
@@ -38,7 +38,6 @@ public class AdminGoodsController {
     public ModelAndView addGood(GoodDto goodDto, @RequestParam String type) {
         try {
             goodDto.setType(GoodType.valueOf(type));
-            System.out.println(goodDto.toString());
             if (goodDto.getTitle().equals("") || goodDto.getDescription().equals("")
                     || goodDto.getPrice() == null || goodDto.getType() == null)
                 throw new IllegalArgumentException("Заполните все параметры");

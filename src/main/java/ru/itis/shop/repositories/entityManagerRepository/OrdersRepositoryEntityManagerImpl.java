@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import ru.itis.shop.models.Good;
 import ru.itis.shop.models.Order;
-import ru.itis.shop.models.Person;
+import ru.itis.shop.models.User;
 import ru.itis.shop.repositories.OrdersRepository;
 
 import javax.persistence.EntityManager;
@@ -20,8 +20,8 @@ public class OrdersRepositoryEntityManagerImpl implements OrdersRepository {
     @Transactional
     @Override
     public void deleteByPersonIdAndGoodId(Long idPerson, Long idGood) {
-        entityManager.createQuery("DELETE FROM ru.itis.shop.models.Order o WHERE o.person = ?1 AND o.good =?2")
-                .setParameter(1, Person.builder().id(idPerson).build())
+        entityManager.createQuery("DELETE FROM ru.itis.shop.models.Order o WHERE o.user = ?1 AND o.good =?2")
+                .setParameter(1, User.builder().id(idPerson).build())
                 .setParameter(2, Good.builder().id(idGood).build())
                 .executeUpdate();
     }
@@ -30,8 +30,8 @@ public class OrdersRepositoryEntityManagerImpl implements OrdersRepository {
     @Override
     public Optional<Order> findByPersonIdAndGoodId(Long idPerson, Long idGood) {
         Order order = entityManager.createQuery
-                ("SELECT o FROM ru.itis.shop.models.Order o WHERE o.person = ?1 AND o.good =?2", Order.class)
-                .setParameter(1, Person.builder().id(idPerson).build())
+                ("SELECT o FROM ru.itis.shop.models.Order o WHERE o.user = ?1 AND o.good =?2", Order.class)
+                .setParameter(1, User.builder().id(idPerson).build())
                 .setParameter(2, Good.builder().id(idGood).build())
                 .getResultList()
                 .stream().findFirst().orElse(null);

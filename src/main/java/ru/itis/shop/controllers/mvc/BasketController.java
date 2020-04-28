@@ -31,7 +31,7 @@ public class BasketController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/basket")
-    public ModelAndView openCatalogPage(Authentication authentication){
+    public ModelAndView openBasketPage(Authentication authentication){
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         List<BasketDto> basket =  basketService.getBasket(userDetails.getUsername());
         if (basket.isEmpty()){

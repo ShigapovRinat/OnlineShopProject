@@ -7,9 +7,9 @@ import ru.itis.shop.dto.GoodDto;
 import ru.itis.shop.dto.OrderDto;
 import ru.itis.shop.models.Good;
 import ru.itis.shop.models.Order;
-import ru.itis.shop.models.Person;
+import ru.itis.shop.models.User;
 import ru.itis.shop.repositories.OrdersRepository;
-import ru.itis.shop.repositories.PersonsRepository;
+import ru.itis.shop.repositories.UsersRepository;
 import ru.itis.shop.services.OrdersService;
 
 import java.time.LocalDateTime;
@@ -22,7 +22,7 @@ public class OrdersServiceImpl implements OrdersService {
     private OrdersRepository ordersRepository;
 
     @Autowired
-    private PersonsRepository personsRepository;
+    private UsersRepository usersRepository;
 
     @Override
     public List<OrderDto> getAllOrders() {
@@ -34,7 +34,7 @@ public class OrdersServiceImpl implements OrdersService {
             if (!map.containsKey(order.getOrderId())) {
                 if (!id.equals("start")) {
                     orderDtoList.add(OrderDto.builder()
-                            .email(order.getPerson().getEmail())
+                            .email(order.getUser().getEmail())
                             .createAt(createAt)
                             .idOrder(id)
                             .goodsBasket(map.get(id))
@@ -47,7 +47,7 @@ public class OrdersServiceImpl implements OrdersService {
             map.get(id)
                     .add(BasketDto.builder()
                             .quantityGood(order.getQuantityGood())
-                            .email(order.getPerson().getEmail())
+                            .email(order.getUser().getEmail())
                             .goodDto(GoodDto.from(order.getGood()))
                             .build()
                     );
@@ -57,9 +57,12 @@ public class OrdersServiceImpl implements OrdersService {
 
     @Override
     public List<OrderDto> getOrdersPerson(String email) {
-        Optional<Person> optionalPerson = personsRepository.find(email);
+        Optional<User> optionalPerson = usersRepository.find(email);
         if (optionalPerson.isPresent()) {
             Set<Order> orders = optionalPerson.get().getOrders();
+            if (orders == null){
+                return new ArrayList<>();
+            }
             List<OrderDto> orderDtoList = new ArrayList<>();
             List<BasketDto> basketDtoList = new ArrayList<>();
             String orderId = "start";
@@ -100,12 +103,12 @@ public class OrdersServiceImpl implements OrdersService {
     public void addOrder(OrderDto orderDto) {
         LocalDateTime createAt = LocalDateTime.now();
         String orderId = UUID.randomUUID().toString();
-        Optional<Person> optionalPerson = personsRepository.find(orderDto.getEmail());
+        Optional<User> optionalPerson = usersRepository.find(orderDto.getEmail());
         if (optionalPerson.isPresent()) {
             for (BasketDto basketDto : orderDto.getGoodsBasket()) {
                 ordersRepository.save(Order.builder()
                         .orderId(orderId)
-                        .person(Person.builder()
+                        .user(User.builder()
                                 .id(optionalPerson.get().getId())
                                 .build())
                         .good(Good.builder()

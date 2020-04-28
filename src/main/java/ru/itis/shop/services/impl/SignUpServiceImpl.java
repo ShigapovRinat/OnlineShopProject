@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import ru.itis.shop.dto.SignUpDto;
-import ru.itis.shop.models.Person;
-import ru.itis.shop.models.PersonRole;
-import ru.itis.shop.repositories.PersonsRepository;
+import ru.itis.shop.models.User;
+import ru.itis.shop.models.UserRole;
+import ru.itis.shop.repositories.UsersRepository;
 import ru.itis.shop.services.SignUpService;
 
 import java.util.UUID;
@@ -16,8 +16,8 @@ import java.util.UUID;
 public class SignUpServiceImpl implements SignUpService {
 
     @Autowired
-    @Qualifier(value = "personsRepositoryEntityManagerImpl")
-    private PersonsRepository personsRepository;
+    @Qualifier(value = "usersRepositoryEntityManagerImpl")
+    private UsersRepository usersRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -25,17 +25,17 @@ public class SignUpServiceImpl implements SignUpService {
     @Override
     public void signUp(SignUpDto signUpDto) {
 
-        if (!personsRepository.find(signUpDto.getEmail()).isPresent()) {
-            Person person = Person.builder()
+        if (!usersRepository.find(signUpDto.getEmail()).isPresent()) {
+            User user = User.builder()
                     .name(signUpDto.getName())
                     .email(signUpDto.getEmail())
                     .hashPassword(passwordEncoder.encode(signUpDto.getPassword()))
                     .isConfirmed(false)
-                    .role(PersonRole.USER)
+                    .role(UserRole.USER)
                     .build();
             String confirmLink = UUID.randomUUID().toString();
-            person.setConfirmLink(confirmLink);
-            personsRepository.save(person);
+            user.setConfirmLink(confirmLink);
+            usersRepository.save(user);
         } else throw new IllegalArgumentException("Пользователь с таким email уже существует");
     }
 }

@@ -10,9 +10,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import ru.itis.shop.models.PersonRole;
+import ru.itis.shop.models.UserRole;
 import ru.itis.shop.security.jwt.authentication.JwtAuthentication;
-import ru.itis.shop.security.jwt.details.PersonDetailsForTokenImpl;
+import ru.itis.shop.security.jwt.details.UserDetailsForTokenImpl;
 
 @Profile("rest")
 @Component
@@ -32,9 +32,9 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
             throw new AuthenticationCredentialsNotFoundException("Bad token");
         }
 
-        UserDetails userDetails = PersonDetailsForTokenImpl.builder()
+        UserDetails userDetails = UserDetailsForTokenImpl.builder()
                 .personId(Long.parseLong(claims.get("sub", String.class)))
-                .role(PersonRole.valueOf(claims.get("role", String.class)))
+                .role(UserRole.valueOf(claims.get("role", String.class)))
                 .email(claims.get("email", String.class))
                 .build();
 

@@ -5,9 +5,6 @@ function sendMessage(pageId, text, whomId) {
         whomId: whomId
     };
 
-    // var token = $("meta[name='_csrf']").attr("content");
-    // var header = $("meta[name='_csrf_header']").attr("content");
-
     $.ajax({
 
         url: "/messages",
@@ -15,9 +12,6 @@ function sendMessage(pageId, text, whomId) {
         data: JSON.stringify(body),
         contentType: "application/json",
         dataType: "json",
-        // beforeSend: function (xhr) {
-        //     xhr.setRequestHeader(header, token);
-        // },
         complete: function () {
             if (text === "Здравствуйте, чем я могу Вам помочь?") {
                 receiveMessage(pageId)
@@ -29,17 +23,11 @@ function sendMessage(pageId, text, whomId) {
 // LONG POLLING
 function receiveMessage(pageId) {
 
-    // var token = $("meta[name='_csrf']").attr("content");
-    // var header = $("meta[name='_csrf_header']").attr("content");
-
     $.ajax({
         url: "/messages?pageId=" + pageId,
         method: "GET",
         dataType: "json",
         contentType: "application/json",
-        // beforeSend: function(xhr) {
-        //     xhr.setRequestHeader(header, token)
-        // },
         success: function (response) {
             var userName = pageId;
             if ((response[0]['whomId'] != "1" || response[0]['pageId'] === "89179060010@mail.ru")

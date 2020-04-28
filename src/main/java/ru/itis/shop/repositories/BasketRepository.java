@@ -6,8 +6,8 @@ import java.util.Optional;
 
 public interface BasketRepository extends CrudRepository<Long, Basket> {
 
-    void deleteByPersonIdAndGoodId(Long idPerson, Long idGood);
-    Optional<Basket> findByPersonIdAndGoodId(Long idPerson, Long idGood);
+    void deleteByUserIdAndGoodId(Long idUser, Long idGood);
+    Optional<Basket> findByUserIdAndGoodId(Long idUser, Long idGood);
     void  updateQuantity(Long id, Integer quantity);
-    void deletePersonAll(Long idPerson);
+    void deleteUserAll(Long idUser);
 }

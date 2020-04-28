@@ -6,7 +6,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.itis.shop.models.Mail;
-import ru.itis.shop.models.Person;
+import ru.itis.shop.models.User;
 import ru.itis.shop.services.EmailService;
 
 import java.util.HashMap;
@@ -19,11 +19,11 @@ public class EmailSenderLinkFileAspect {
    @Autowired
    private EmailService emailService;
 
-    @AfterReturning(value = "execution(* ru.itis.shop.repositories.PersonsRepository.save(*))")
+    @AfterReturning(value = "execution(* ru.itis.shop.repositories.UsersRepository.save(*))")
     public void sendConfirmation(JoinPoint joinPoint) {
-        Person person = (Person) joinPoint.getArgs()[0];
-        String email = person.getEmail();
-        String link = person.getConfirmLink();
+        User user = (User) joinPoint.getArgs()[0];
+        String email = user.getEmail();
+        String link = user.getConfirmLink();
 
         if (email == null) {
             throw new IllegalArgumentException("email is null");
