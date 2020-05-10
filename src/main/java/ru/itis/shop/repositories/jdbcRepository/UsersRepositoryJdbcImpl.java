@@ -105,6 +105,16 @@ public class UsersRepositoryJdbcImpl implements UsersRepository {
     }
 
     @Override
+    public void updatePassword(String email, String password) {
+
+    }
+
+    @Override
+    public void updateName(String email, String password) {
+
+    }
+
+    @Override
     public Optional<User> findByConfirmLink(String confirmLink) {
         try {
             User user = jdbcTemplate.queryForObject(SQL_FIND_BY_CONFIRM_LINK, new Object[]{confirmLink}, userRowMapper);

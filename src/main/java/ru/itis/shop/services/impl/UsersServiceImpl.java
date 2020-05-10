@@ -2,6 +2,7 @@ package ru.itis.shop.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.ApplicationScope;
 import ru.itis.shop.dto.UserDto;
 import ru.itis.shop.models.User;
 import ru.itis.shop.repositories.UsersRepository;

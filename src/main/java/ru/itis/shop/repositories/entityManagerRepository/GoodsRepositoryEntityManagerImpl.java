@@ -3,6 +3,7 @@ package ru.itis.shop.repositories.entityManagerRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import ru.itis.shop.models.Good;
+import ru.itis.shop.models.GoodType;
 import ru.itis.shop.repositories.GoodsRepository;
 
 import javax.persistence.EntityManager;
@@ -45,5 +46,13 @@ public class GoodsRepositoryEntityManagerImpl implements GoodsRepository {
     public void delete(Long id) {
         entityManager.createQuery("DELETE FROM Good g WHERE g.id = ?1")
                 .setParameter(1, id).executeUpdate();
+    }
+
+    @Override
+    public List<Good> findByManufacturerOrType(String manufacturer, GoodType type) {
+        return entityManager.createQuery("SELECT g FROM Good g WHERE g.manufacturer = ?1 OR g.type = ?2", Good.class)
+                .setParameter(1, manufacturer)
+                .setParameter(2, type)
+                .getResultList();
     }
 }

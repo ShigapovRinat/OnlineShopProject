@@ -81,4 +81,9 @@ public class GoodsRepositoryJdbcImpl implements GoodsRepository {
             return statement;
         });
     }
+
+    @Override
+    public List<Good> findByManufacturerOrType(String manufacturer, GoodType type) {
+        return null;
+    }
 }

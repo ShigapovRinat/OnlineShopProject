@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.itis.shop.dto.GoodDto;
 import ru.itis.shop.models.Good;
+import ru.itis.shop.models.GoodType;
 import ru.itis.shop.repositories.GoodsRepository;
 import ru.itis.shop.services.GoodsService;
 
@@ -44,5 +45,10 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public void deleteGood(Long id) {
         goodsRepository.delete(id);
+    }
+
+    @Override
+    public List<GoodDto> getRecommendations(String manufacturer, GoodType type) {
+        return GoodDto.from(goodsRepository.findByManufacturerOrType(manufacturer, type));
     }
 }

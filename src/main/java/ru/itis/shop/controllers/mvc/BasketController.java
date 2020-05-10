@@ -37,7 +37,11 @@ public class BasketController {
         if (basket.isEmpty()){
             return new ModelAndView("basket");
         }
-        return new ModelAndView("basket", "basket", basket);
+        GoodDto goodDto = basket.get(0).getGoodDto();
+        Map<String, Object> map = new HashMap<>();
+        map.put("basket", basket);
+        map.put("recommendations",  goodsService.getRecommendations(goodDto.getManufacturer(), goodDto.getType()));
+        return new ModelAndView("basket", map);
     }
 
     @PreAuthorize("isAuthenticated()")

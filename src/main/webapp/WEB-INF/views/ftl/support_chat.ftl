@@ -5,12 +5,16 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <title>Document</title>
     <script
             src="https://code.jquery.com/jquery-3.4.1.min.js"
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
             crossorigin="anonymous"></script>
     <script>
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
         function sendMessage(pageId, text, whomId) {
             let body = {
                 pageId: pageId,
@@ -29,6 +33,9 @@
                     if (text === "Здравствуйте, чем я могу Вам помочь?") {
                         receiveMessage(pageId)
                     }
+                },
+                beforeSend: function( xhr ) {
+                    xhr.setRequestHeader(header, token);
                 }
             });
         }
@@ -49,8 +56,11 @@
                     }
                     $('#messages').first().after('<li>' + userName + " " + response[0]['text'] + '</li>');
                     receiveMessage(pageId);
+                },
+                beforeSend: function( xhr ) {
+                    xhr.setRequestHeader(header, token);
                 }
-            })
+            });
         }
     </script>
 </head>

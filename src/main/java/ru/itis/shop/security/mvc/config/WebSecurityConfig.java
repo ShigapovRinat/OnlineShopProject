@@ -26,12 +26,6 @@ import ru.itis.shop.handlers.AuthenticationHandler;
 @Component
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Value("${google.clientId}")
-    private String clientId;
-
-    @Value("${google.clientSecret}")
-    private String clientSecret;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -62,14 +56,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .deleteCookies("SESSION", "remember-me")
                 .invalidateHttpSession(true)
                 .and()
-                .csrf()
-                .ignoringAntMatchers("/chat")
-                .ignoringAntMatchers("/messages")
-                .and()
                 .oauth2Login()
                 .successHandler(authenticationHandler)
                 .and()
-                .rememberMe().rememberMeParameter("remember-me").tokenRepository(persistentTokenRepository);
+                .rememberMe()
+                .rememberMeParameter("remember-me")
+                .tokenRepository(persistentTokenRepository);
 
     }
 

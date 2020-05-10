@@ -52,6 +52,24 @@ public class UsersRepositoryEntityManagerImpl implements UsersRepository {
 
     @Transactional
     @Override
+    public void updatePassword(String email, String password) {
+        entityManager.createQuery("UPDATE User p SET p.password = ?1 WHERE p.email = ?2")
+                .setParameter(1, password)
+                .setParameter(1, email)
+                .executeUpdate();
+    }
+
+    @Transactional
+    @Override
+    public void updateName(String email, String name) {
+        entityManager.createQuery("UPDATE User p SET p.name = ?1 WHERE p.email = ?2")
+                .setParameter(1, name)
+                .setParameter(2, email)
+                .executeUpdate();
+    }
+
+    @Transactional
+    @Override
     public Optional<User> find(String email) {
         User user = entityManager.createQuery("SELECT p FROM User p WHERE p.email = ?1", User.class)
                 .setParameter(1, email).getResultList()

@@ -103,13 +103,14 @@ public class OrdersServiceImpl implements OrdersService {
     public void addOrder(OrderDto orderDto) {
         LocalDateTime createAt = LocalDateTime.now();
         String orderId = UUID.randomUUID().toString();
-        Optional<User> optionalPerson = usersRepository.find(orderDto.getEmail());
-        if (optionalPerson.isPresent()) {
+        Optional<User> optionalUser = usersRepository.find(orderDto.getEmail());
+        if (optionalUser.isPresent()) {
             for (BasketDto basketDto : orderDto.getGoodsBasket()) {
                 ordersRepository.save(Order.builder()
                         .orderId(orderId)
                         .user(User.builder()
-                                .id(optionalPerson.get().getId())
+                                .id(optionalUser.get().getId())
+                                .email(optionalUser.get().getEmail())
                                 .build())
                         .good(Good.builder()
                                 .id(basketDto.getGoodDto().getId())

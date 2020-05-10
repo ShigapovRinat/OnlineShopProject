@@ -30,4 +30,4 @@ effective-settings.xml
 */dependency-reduced-pom.xml
 node_modules
 
-application.properies
+application.properties

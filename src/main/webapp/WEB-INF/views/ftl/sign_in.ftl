@@ -1,4 +1,5 @@
 <!doctype html>
+<#import "spring.ftl" as spring />
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,14 +9,16 @@
     <title>Login</title>
 </head>
 <body>
-<h1>Войти</h1>
+<div>
+    <h1><@spring.message 'authorization.page.title'/></h1>
+</div>
 <div>
     <form action="/signIn" method="post">
         <input name="email" placeholder="Email">
-        <input type="password" name="password" placeholder="Пароль">
+        <input type="password" name="password" placeholder="<@spring.message 'registration.page.password'/>">
         <br>
         <label>
-            <input type="checkbox" name="remember-me">Запомнить меня
+            <input type="checkbox" name="remember-me"><@spring.message 'authorization.page.remember-me'/>
         </label>
         <br>
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">

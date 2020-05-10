@@ -9,4 +9,6 @@ public interface UsersRepository extends CrudRepository<String, User> {
     Optional<User> findById(Long id);
     void confirmed(String email);
     void deleteUserById(Long id);
+    void updatePassword(String email, String password);
+    void updateName(String email, String name);
 }

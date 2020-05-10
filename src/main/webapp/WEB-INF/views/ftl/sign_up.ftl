@@ -1,24 +1,47 @@
 <!doctype html>
+<#import "spring.ftl" as spring />
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
     <title>Registration</title>
 </head>
+<style>
+    .error {
+        color: #ff0000;
+    }
+</style>
 <body>
-<h1>Зарегестрироваться</h1>
 <div>
+    <h1><@spring.message 'registration.page.title'/></h1>
+</div>
+<div>
+    <@spring.bind "signUpDto"/>
     <form action="/signUp" method="post">
-        <input name="name" placeholder="Имя">
-        <input name="email" placeholder="Email">
-        <input type="password" name="password" placeholder="Пароль">
+        Email: <br>
+        <@spring.formInput "signUpDto.email"/>
+        <br>
+        <@spring.showErrors "<br>", "error"/>
+        <br><br>
+        <@spring.message 'registration.page.name'/>: <br>
+        <@spring.formInput "signUpDto.name"/>
+        <br>
+        <@spring.showErrors "<br>","error"/>
+        <br><br>
+        <@spring.message 'registration.page.password'/>: <br>
+        <@spring.formInput "signUpDto.password"/>
+        <br>
+        <@spring.showErrors "<br>","error"/>
+
+        <br>
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
         <input type="submit" value="Регистрация">
     </form>
     <#if exception??>
-        ${exception.message}
+        <p style="color: red">${exception.message}</p>
     </#if>
 </div>
 </body>

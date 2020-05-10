@@ -34,3 +34,14 @@ Content-Type: application/json
 }
 
 ###
+
+POST http://localhost:8080/signUp?lang=en
+Content-Type: application/json
+
+{
+  "email" : "b@mail.ru",
+  "password": "123H",
+  "name": "Rinat"
+}
+
+###

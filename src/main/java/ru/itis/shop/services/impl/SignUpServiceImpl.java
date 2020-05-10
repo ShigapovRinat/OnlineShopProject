@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
 import ru.itis.shop.dto.SignUpDto;
 import ru.itis.shop.models.User;
 import ru.itis.shop.models.UserRole;
@@ -23,8 +24,8 @@ public class SignUpServiceImpl implements SignUpService {
     private PasswordEncoder passwordEncoder;
 
     @Override
+    @RequestScope
     public void signUp(SignUpDto signUpDto) {
-
         if (!usersRepository.find(signUpDto.getEmail()).isPresent()) {
             User user = User.builder()
                     .name(signUpDto.getName())

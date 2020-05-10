@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.context.annotation.SessionScope;
 import ru.itis.shop.models.User;
 import ru.itis.shop.models.UserRole;
 
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@SessionScope
 public class UserDto {
 
     private Long id;

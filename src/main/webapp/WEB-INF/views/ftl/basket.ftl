@@ -29,6 +29,26 @@
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
             <input type="submit" value="Сделать заказ">
         </form>
+    <br>
+    <br>
+   <h3>Вам может понравится</h3>
+    <#list recommendations as good>
+         <table>
+             <tr>
+                 <th>${good.id}</th>
+                 <th>${good.title}</th>
+                 <th>${good.type}</th>
+                 <th>${good.price}</th>
+                 <th>${good.description}</th>
+            <form action="/catalog" method="post">
+                <th><input type="number" name="quantity" value="1"></th>
+                <input type="hidden" name="id" value="${good.id}">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                <th><input type="submit" value="Добавить"></th>
+            </form>
+             </tr>
+         </table>
+    </#list>
     <#else>
         Корзина пуста
     </#if>
