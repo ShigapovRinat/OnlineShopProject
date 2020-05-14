@@ -3,11 +3,10 @@ package ru.itis.shop.config;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,9 +18,10 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
+import ru.itis.shop.scope.CustomBeanFactoryPostProcessor;
 
 import javax.sql.DataSource;
-import javax.xml.crypto.Data;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Properties;
 
@@ -47,21 +47,8 @@ public class ApplicationContextConfig {
         config.setUsername(environment.getProperty("db.user"));
         config.setPassword(environment.getProperty("db.password"));
         config.setDriverClassName(environment.getProperty("db.driver"));
-//        Properties properties = new Properties();
-//        properties.put("initialization-mode", environment.getProperty("spring.datasource.initialization-mode"));
-//        config.setDataSourceProperties(properties);
         return config;
     }
-
-//    @Bean
-//    public DataSource driverManagerDataSource() {
-//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-//        dataSource.setUrl(environment.getProperty("db.url"));
-//        dataSource.setUsername(environment.getProperty("db.user"));
-//        dataSource.setPassword(environment.getProperty("db.password"));
-//        dataSource.setDriverClassName(Objects.requireNonNull(environment.getProperty("db.driver")));
-//        return dataSource;
-//    }
 
     @Bean
     public DataSource hikariDataSource() {
@@ -104,6 +91,13 @@ public class ApplicationContextConfig {
     }
 
     @Bean
+    public freemarker.template.Configuration configuration(){
+        freemarker.template.Configuration configuration = freemarkerConfig().getConfiguration();
+        configuration.setEncoding(new Locale("ru"), "utf-8");
+        return configuration;
+    }
+
+    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
@@ -115,9 +109,14 @@ public class ApplicationContextConfig {
         return jdbcTokenRepository;
     }
 
-//    @Bean
-//    public PlatformTransactionManager transactionManager(DataSource dataSource) {
-//        return new DataSourceTransactionManager(dataSource);
-//    }
+    @Bean
+    public static BeanFactoryPostProcessor beanFactoryPostProcessor() {
+        return new CustomBeanFactoryPostProcessor();
+    }
+
+    @Bean
+    public CommonsMultipartResolver multipartResolver(){
+        return new CommonsMultipartResolver();
+    }
 
 }

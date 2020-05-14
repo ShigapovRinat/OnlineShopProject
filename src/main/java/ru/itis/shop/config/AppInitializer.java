@@ -14,7 +14,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 import java.io.IOException;
 
-@EnableWebMvc
 public class AppInitializer implements WebApplicationInitializer {
 
 

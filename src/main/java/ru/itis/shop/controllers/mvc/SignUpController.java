@@ -14,6 +14,7 @@ import ru.itis.shop.dto.SignUpDto;
 import ru.itis.shop.services.SignUpService;
 
 import javax.validation.Valid;
+import java.util.UUID;
 
 @Profile("mvc")
 @Controller
@@ -37,7 +38,7 @@ public class SignUpController {
     public ModelAndView registration(@Valid SignUpDto signUpDto, BindingResult bindingResult) {
         try {
             if(!bindingResult.hasErrors()){
-                service.signUp(signUpDto);
+                service.signUp(signUpDto, UUID.randomUUID().toString());
                 return new ModelAndView("redirect:/signIn");
             } else {
                 return new ModelAndView("sign_up");

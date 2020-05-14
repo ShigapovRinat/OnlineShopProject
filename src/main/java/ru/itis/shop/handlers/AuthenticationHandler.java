@@ -24,7 +24,6 @@ public class AuthenticationHandler extends SimpleUrlAuthenticationSuccessHandler
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         DefaultOidcUser user = (DefaultOidcUser) authentication.getPrincipal();
-
         try {
             UserDto userDto = usersService.findPerson(user.getEmail());
         } catch (IllegalArgumentException e){

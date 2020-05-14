@@ -6,6 +6,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.itis.shop.dto.OrderDto;
+import ru.itis.shop.dto.SignUpDto;
 import ru.itis.shop.models.Mail;
 import ru.itis.shop.models.User;
 import ru.itis.shop.services.EmailService;
@@ -21,11 +22,11 @@ public class EmailSenderLinkFileAspect {
    @Autowired
    private EmailService emailService;
 
-    @AfterReturning(value = "execution(* ru.itis.shop.repositories.UsersRepository.save(*))")
+    @AfterReturning(value = "execution(* ru.itis.shop.services.SignUpService.signUp())")
     public void sendConfirmation(JoinPoint joinPoint) {
-        User user = (User) joinPoint.getArgs()[0];
+        SignUpDto user = (SignUpDto) joinPoint.getArgs()[0];
         String email = user.getEmail();
-        String link = user.getConfirmLink();
+        String link = (String) joinPoint.getArgs()[1];
 
         if (email == null) {
             throw new IllegalArgumentException("email is null");

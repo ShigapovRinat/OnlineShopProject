@@ -15,6 +15,7 @@ import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 
 @Profile("rest")
 @RestController
@@ -33,7 +34,7 @@ public class SignUpRestController {
                     || dto.getName().equals(""))
                 return ResponseEntity.badRequest().body(messageSource.getMessage("rest.page.not.all.parameters", null, locale));
 
-            service.signUp(dto);
+            service.signUp(dto, UUID.randomUUID().toString());
             return ResponseEntity.ok(messageSource.getMessage("rest.success", null, locale));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(messageSource.getMessage("rest.page.registration.email.has", null, locale));

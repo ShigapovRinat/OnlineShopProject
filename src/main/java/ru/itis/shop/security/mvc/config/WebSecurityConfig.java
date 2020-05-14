@@ -57,6 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true)
                 .and()
                 .oauth2Login()
+                .loginPage("/login/oauth2/code/google")
                 .successHandler(authenticationHandler)
                 .and()
                 .rememberMe()

@@ -32,7 +32,7 @@
         <@spring.showErrors "<br>","error"/>
         <br><br>
         <@spring.message 'registration.page.password'/>: <br>
-        <@spring.formInput "signUpDto.password"/>
+        <@spring.formPasswordInput "signUpDto.password"/>
         <br>
         <@spring.showErrors "<br>","error"/>
 

@@ -1,3 +1,5 @@
+var token = $("meta[name='_csrf']").attr("content");
+var header = $("meta[name='_csrf_header']").attr("content");
 function sendMessage(pageId, text, whomId) {
     let body = {
         pageId: pageId,
@@ -16,6 +18,9 @@ function sendMessage(pageId, text, whomId) {
             if (text === "Здравствуйте, чем я могу Вам помочь?") {
                 receiveMessage(pageId)
             }
+        },
+        beforeSend: function( xhr ) {
+            xhr.setRequestHeader(header, token);
         }
     });
 }
@@ -36,6 +41,9 @@ function receiveMessage(pageId) {
             }
             $('#messages').first().after('<li>' + userName + " " + response[0]['text'] + '</li>');
             receiveMessage(pageId);
+        },
+        beforeSend: function( xhr ) {
+            xhr.setRequestHeader(header, token);
         }
-    })
+    });
 }

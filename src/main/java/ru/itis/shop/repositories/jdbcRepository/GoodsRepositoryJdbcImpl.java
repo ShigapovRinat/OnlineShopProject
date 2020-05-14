@@ -22,9 +22,11 @@ public class GoodsRepositoryJdbcImpl implements GoodsRepository {
     //language=SQL
     private static final String SQL_FIND_BY_ID = "select * from good where id = ?";
     //language=SQL
-    private static final String SQL_INSERT = "insert into good (title, description, price, type) values (?,?,?,?)";
+    private static final String SQL_INSERT = "insert into good (title, description, price, type, manufacturer) values (?,?,?,?)";
     //language=SQL
     private static final String SQL_DELETE = "delete from good where title = ?";
+    //language=SQL
+    private static final String SQL_FIND_BY_TYPE_OR_MANUFACTER = "select * from good where type = ? or manufacturer = ?";
 
 
     @Autowired
@@ -40,6 +42,7 @@ public class GoodsRepositoryJdbcImpl implements GoodsRepository {
                     .description(row.getString("description"))
                     .price(row.getInt("price"))
                     .type(GoodType.valueOf(row.getString("type")))
+                    .manufacturer(row.getString("manufacturer"))
                     .build();
 
 
@@ -84,6 +87,6 @@ public class GoodsRepositoryJdbcImpl implements GoodsRepository {
 
     @Override
     public List<Good> findByManufacturerOrType(String manufacturer, GoodType type) {
-        return null;
+        return jdbcTemplate.query(SQL_FIND_BY_TYPE_OR_MANUFACTER, new Object[]{manufacturer, type.name()}, userRowMapper);
     }
 }
