@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 import ru.itis.shop.models.Good;
 import ru.itis.shop.models.GoodType;
 
@@ -22,6 +23,8 @@ public class GoodDto {
     private String description;
     private Integer price;
     private GoodType type;
+    private String path;
+    private MultipartFile multipartFile;
 
     public static GoodDto from(Good good){
         return GoodDto.builder()
@@ -31,6 +34,7 @@ public class GoodDto {
                 .price(good.getPrice())
                 .type(good.getType())
                 .manufacturer(good.getManufacturer())
+                .path(good.getPath())
                 .build();
     }
 

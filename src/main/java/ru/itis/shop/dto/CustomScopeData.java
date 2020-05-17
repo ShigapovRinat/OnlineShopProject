@@ -20,4 +20,12 @@ public class CustomScopeData {
         System.out.println("New message from " + email + " in support chat");
     }
 
+    public void deleteSet(){
+        usersName.clear();
+    }
+
+    public Set<String> showSet(){
+        return usersName;
+    }
+
 }

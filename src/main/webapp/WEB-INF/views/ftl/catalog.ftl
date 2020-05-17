@@ -13,6 +13,9 @@
     <#list goods as good>
         <table>
             <tr>
+                 <#if good.path??>
+                    <img src='/images/${good.path}'>
+                 </#if>
                 <th>${good.id}</th>
                 <th>${good.title}</th>
                 <th>${good.type}</th>

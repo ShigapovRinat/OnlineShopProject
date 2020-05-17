@@ -5,29 +5,40 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <script src="/js/sendFile.js"></script>
     <title>Add good</title>
 </head>
 <body>
 <h1>Добавить продукт</h1>
 <div>
-    <form action="/addGood" method="post">
-        <input name="title" placeholder="Название">
-        <input type="number" name="price" placeholder="Цена">
-        <input type="text" name="manufacturer" placeholder="Производитель">
-        <input type="text" name="description" placeholder="Описание">
+        <input name="title" id="title" placeholder="Название">
+        <input type="number" name="price" id="price" placeholder="Цена">
+        <input type="text" name="manufacturer" id="manufacturer" placeholder="Производитель">
+        <input type="text" name="description" id="description" placeholder="Описание">
         <p>
             Категория:
             <label>
-                <select name="type">
+                <select name="type" id="type">
                     <option value="PHONE">Телефон</option>
                     <option value="NOTEBOOK">Ноутбук</option>
                     <option value="TABLET">Планшет</option>
                 </select>
             </label>
         </p>
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-        <input type="submit" value="Добавить">
-    </form>
+        <div>
+            <input type="file" id="file" name="file" placeholder="Name file..."/>
+            <button onclick="sendFile()">
+                Добавить
+            </button>
+            <input type="hidden" id="file_hidden">
+            <div class="filename"></div>
+        </div>
     <#if message??>
         ${message}
     </#if>

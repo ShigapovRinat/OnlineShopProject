@@ -34,7 +34,6 @@ public class MessagesController {
     @Autowired
     private UsersService usersService;
 
-    // получили сообщение от какой либо страницы - мы его разошлем во все другие страницы
     @PostMapping("/messages")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Object> receiveMessage(@RequestBody MessageDto message, Authentication authentication) {

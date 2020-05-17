@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import ru.itis.shop.dto.GoodDto;
 import ru.itis.shop.models.GoodType;
@@ -35,9 +36,14 @@ public class GoodsController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/addGood")
-    public ModelAndView addGood(GoodDto goodDto, @RequestParam String type) {
+    public ModelAndView addGood(GoodDto goodDto, @RequestParam String type, @RequestParam("multipartFile") MultipartFile multipartFile) {
         try {
+            goodDto.setMultipartFile(multipartFile);
             goodDto.setType(GoodType.valueOf(type));
+            if (!multipartFile.getContentType().substring(0,5).equals("image")){
+                System.out.println(multipartFile.getContentType().substring(0, '/'));
+                throw new IllegalArgumentException("Загрузите картинку");
+            }
             if (goodDto.getTitle().equals("") || goodDto.getDescription().equals("")
                     || goodDto.getPrice() == null || goodDto.getType() == null)
                 throw new IllegalArgumentException("Заполните все параметры");

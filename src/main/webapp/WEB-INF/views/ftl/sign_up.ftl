@@ -6,7 +6,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
+    <script src="/js/checkPassword.js"></script>
     <title>Registration</title>
 </head>
 <style>
@@ -32,9 +32,14 @@
         <@spring.showErrors "<br>","error"/>
         <br><br>
         <@spring.message 'registration.page.password'/>: <br>
-        <@spring.formPasswordInput "signUpDto.password"/>
+        <@spring.formPasswordInput "signUpDto.password", "onkeyup=\"checkPass(); return false;\""/>
         <br>
         <@spring.showErrors "<br>","error"/>
+        <br><br>
+        <@spring.message 'registration.page.confirmPassword'/>: <br>
+        <input name="password" type="password" id="password2" class="form-control"
+               required="" onkeyup="checkPass(); return false;">
+        <div id="error-nwl"></div>
 
         <br>
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">

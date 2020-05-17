@@ -22,6 +22,7 @@ public class Good implements Serializable {
     private String manufacturer;
     private String description;
     private Integer price;
+    private String path;
 
     @Enumerated(value = EnumType.STRING)
     private GoodType type;
